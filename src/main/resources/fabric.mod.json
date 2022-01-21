@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "comhelper",
+  "version": "${version}",
+
+  "name": "CommandHelper",
+  "description": "This is an mod for server players!",
+  "authors": [
+    "GregTao"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "GPL V3",
+  "icon": "assets/comhelper/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.everlastsino.comhelper.comhelper"
+    ]
+  },
+  "mixins": [
+    "comhelper.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
