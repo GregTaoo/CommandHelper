@@ -27,6 +27,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class HelperCommands {
             "OUCH! Is the server overloaded? @!@",
             "Every minutes count. So what R U doing?",
             "gg",
-            "Hello world~",
+            "Hello world ~",
             "It's none of my business"
     );
     private static int EGG_COUNT = 0;
@@ -100,7 +101,7 @@ public class HelperCommands {
                         })
                 )
         );
-        dispatcher.register(literal("at")
+        dispatcher.register(literal("at").requires((source) -> CHConfig.playerAtAllows)
                 .then(argument("target", EntityArgumentType.players())
                     .then(argument("color", ColorArgumentType.color())
                             .then(literal("no_sound")
@@ -164,6 +165,16 @@ public class HelperCommands {
                             return 1;
                         }))
                 )
+                .then(literal("donate")
+                        .executes((context) -> {
+                            try {
+                                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler https://afdian.net/@gregtao");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            return 1;
+                        })
+                )
                 .then(argument("option", StringArgumentType.word())
                         .executes((context) -> {
                             String str = StringArgumentType.getString(context, "option");
@@ -185,6 +196,15 @@ public class HelperCommands {
                                         false
                                 );
                             }
+                            return 1;
+                        })
+                )
+                .then(literal("help")
+                        .executes((context) -> {
+                            context.getSource().getPlayer().sendMessage(
+                                    Text.of(CHConfig.help),
+                                    false
+                            );
                             return 1;
                         })
                 )
@@ -234,7 +254,6 @@ public class HelperCommands {
                 if (((ServerPlayerEntity)target).isSleeping()) {
                     ((ServerPlayerEntity)target).wakeUp(true, true);
                 }
-
                 if (world == target.world) {
                     ((ServerPlayerEntity)target).networkHandler.requestTeleport(x, y, z, f, g);
                 } else {
